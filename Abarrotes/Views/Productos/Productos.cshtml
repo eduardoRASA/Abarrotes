@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Abarrotes.DAL.ProductosDto>
+
+@{
+    ViewBag.Title = "Productos";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="~/Scripts/Databale/datatables.min.css" />
+<script type="text/javascript" src="~/Scripts/Databale/datatables.min.js"></script>
+<div class="col-md-12">
+    <div class="panel panel-visible" id="spy2">
+        @if (ViewBag.alerta != null)
+        {
+            <div class="alert-info alert alert-dismissible" role="alert">
+                @ViewBag.alerta
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+        }
+        <div class="panel-heading">
+            <div class="panel-title text-info text-center">
+                <h2>@ViewBag.Title</h2>
+            </div>
+        </div>
+
+        <div class="panel-body pn">
+            <div class="table-responsive"></div>
+            <table class="datatable table-striped table-hover" id="datatable" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Marca</th>
+                        <th>Tipo</th>
+                        <th>Existencia</th>
+                        <th>Precio</th>
+                    </tr>
+                </thead>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@item.nombre)</td>
+                        <td>@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@item.marca)</td>
+                        <td>@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@item.tipo)</td>
+                        <td>@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@item.existencia.ToString())</td>
+                        <td>@System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(@item.precio.ToString())</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+
+<script language="javascript" type="text/javascript">
+    $('#datatable').dataTable();
+</script>

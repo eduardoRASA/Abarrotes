@@ -1,0 +1,149 @@
+﻿@model Abarrotes.DAL.UsuariosDto
+
+@{
+    ViewBag.Title = "Crear Usuario";
+}
+
+<h2>@ViewBag.Title</h2>
+
+<form action="@Url.Action("AddUsuario")" method="post" id="form-register">
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.nombre, "Nombre", htmlAttributes: new { @class = "control-label col-md-2"})
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.apellido1, "Apellido 1", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.apellido1, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.apellido1, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.apellido2, "Apellido 2", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.apellido2, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.apellido2, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.correo, "Correo", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.correo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.correo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.celular, "Teléfono", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.celular, new { htmlAttributes = new { @class = "form-control", @maxlength = "10", @onkeypress = "return soloNumeros(event);" } })
+                @Html.ValidationMessageFor(model => model.celular, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.tipo, "Tipo", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.tipo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.tipo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Confirmar" class="btn btn-sm btn-success" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    @Html.ActionLink("Regresar", "Usuarios")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<script language="javascript" type="text/javascript">
+
+    function soloNumeros(evt) {
+        var charCode = (evt.which) ? evt.which : event.keyCode
+        if (charCode > 31 && (charCode < 48 || charCode > 57))
+            return false;
+        return true;
+    }
+    $(document).ready(function () {
+
+            $("#form-register").validate({
+                errorClass: "state-error",
+                validClass: "state-success",
+                errorElement: "em",
+
+                rules: {
+                    nombre: {
+                        required: true
+                    },
+                    apellido1: {
+                        required: true
+                    },
+                    apellido2: {
+                        required: true
+                    },
+                    correo: {
+                        required: true
+                    },
+                    tipo: {
+                        required: true
+                    },
+                    celular: {
+                        required: false
+                    },
+                },
+
+                messages: {
+                    nombre: {
+                        required: 'ingrese @Html.DisplayNameFor(m=>m.nombre)'
+                    },
+                    apellido1: {
+                        required: 'ingrese @Html.DisplayNameFor(m => m.apellido1)'
+                    },
+                    apellido2: {
+                        required: 'ingrese @Html.DisplayNameFor(m => m.apellido2)'
+                    },
+                    correo: {
+                        required: 'Ingrese @Html.DisplayNameFor(m => m.correo)'
+                    },
+                    tipo: {
+                        required: 'Ingrese @Html.DisplayNameFor(m => m.tipo)'
+                    }
+                },
+
+                highlight: function (element, errorClass, validClass) {
+                    $(element).closest('.field').addClass(errorClass).removeClass(validClass);
+                },
+                unhighlight: function (element, errorClass, validClass) {
+                    $(element).closest('.field').removeClass(errorClass).addClass(validClass);
+                },
+                errorPlacement: function (error, element) {
+                    if (element.is(":radio") || element.is(":checkbox")) {
+                        element.closest('.option-group').after(error);
+                    } else {
+                        error.insertAfter(element.parent());
+                    }
+                }
+            });
+        });
+
+</script>
